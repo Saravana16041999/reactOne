@@ -3,15 +3,23 @@ import "./App.css";
 import { FaUserCircle } from "react-icons/fa";
 
 function App() {
+  const [user, setUser] = useState(
+    localStorage.getItem("users")
+      ? JSON.parse(localStorage.getItem("users"))
+      : []
+  );
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
-    console.log(password);
-    localStorage.setItem("email", email);
-    localStorage.setItem("password", password);
+    const UserDetials = {
+      id: "1",
+      email,
+      password,
+    };
+    setUser([...user, UserDetials]);
+    localStorage.setItem("users", JSON.stringify(user));
   };
 
   return (

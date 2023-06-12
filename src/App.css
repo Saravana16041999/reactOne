@@ -39,12 +39,13 @@ form input {
   border-radius: 20px;
 }
 form input:hover {
-  border-color: skyblue;
+  border-color: #1da1f2;
 }
+
 form button {
   margin-top: 20px;
   background-color: #1da1f2;
-  padding: 10px 25px 10px 25px;
+  padding: 13px 30px 13px 30px;
   color: white;
   border: none;
   border-radius: 15px;
