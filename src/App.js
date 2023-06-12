@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { AiFillAccountBook } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
 
 function App() {
   const [email, setemail] = useState("");
@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <div className="main-container">
-        <AiFillAccountBook />
+        <FaUserCircle className="user-logo" />
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -29,9 +29,10 @@ function App() {
             placeholder="enter passsword"
             onChange={(e) => setpassword(e.target.value)}
           />
-          <button>Signin</button>
+          <button>Login</button>
         </form>
-        Forgot password? Not a member? Sign up now
+        <p>Forgot password?</p>
+        <p>Not a member? Sign up now</p>
       </div>
     </div>
   );
