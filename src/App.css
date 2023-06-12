@@ -50,3 +50,6 @@ form button {
   border: none;
   border-radius: 15px;
 }
+.worning {
+  color: red;
+}

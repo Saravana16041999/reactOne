@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import { FaUserCircle } from "react-icons/fa";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [user, setUser] = useState(
@@ -8,35 +9,35 @@ function App() {
       ? JSON.parse(localStorage.getItem("users"))
       : []
   );
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [error, setError] = useState(false);
+  const email = useRef("");
+  const password = useRef("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const UserDetials = {
-      id: "1",
-      email,
-      password,
-    };
-    setUser([...user, UserDetials]);
-    localStorage.setItem("users", JSON.stringify(user));
+    if (email.current.value === "" || password.current.value === "") {
+      setError(true);
+    } else {
+      const UserDetials = {
+        id: uuid(),
+        email: email.current.value,
+        password: password.current.value,
+      };
+      setUser([...user, UserDetials]);
+      localStorage.setItem("users", JSON.stringify(user));
+    }
   };
 
   return (
     <div className="App">
       <div className="main-container">
         <FaUserCircle className="user-logo" />
+        {error && (
+          <small className="worning">Enter your email and Password</small>
+        )}
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="enter email"
-            onChange={(e) => setemail(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="enter passsword"
-            onChange={(e) => setpassword(e.target.value)}
-          />
+          <input type="text" ref={email} placeholder="enter email" />
+          <input type="password" placeholder="enter passsword" ref={password} />
           <button>Login</button>
         </form>
         <p>Forgot password?</p>
