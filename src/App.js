@@ -1,50 +1,47 @@
-import { useRef, useState } from "react";
+import Navbar from "./Components/Navbar";
+import Layout from "./Components/Layout";
 import "./App.css";
-import { FaUserCircle } from "react-icons/fa";
-import { v4 as uuid } from "uuid";
-import validator from "validator";
+import "./pages/Dashboard.css";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Signin from "./pages/Signin";
+import Event from "./pages/Event";
+import Shortcut from "./pages/Shortcut";
+import Overview from "./pages/Overview";
+import { createContext, useState } from "react";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Contact from "./pages/Contact";
+
+export const Appcontext = createContext();
 
 function App() {
-  const [user, setUser] = useState(
-    localStorage.getItem("users")
-      ? JSON.parse(localStorage.getItem("users"))
-      : []
-  );
-  const [error, setError] = useState();
-  const email = useRef("");
-  const password = useRef("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email.current.value === "" || password.current.value === "") {
-      setError("Enter a Valaid Email and Password");
-    } else if (password.current.value.length < 7) {
-      setError("Password must be more then 7 characters");
-    } else if (!validator.isEmail(email.current.value)) {
-      setError("Enter Valid Email @example.com");
-    } else {
-      const UserDetials = {
-        id: uuid(),
-        email: email.current.value,
-        password: password.current.value,
-      };
-      setUser([...user, UserDetials]);
-      localStorage.setItem("users", JSON.stringify(user));
-      setError(false);
-    }
-  };
+  const [login, setlogin] = useState(false);
   return (
     <div className="App">
-      <div className="main-container">
-        <FaUserCircle className="user-logo" />
-        {error && <small className="worning">{error}</small>}
-        <form onSubmit={handleSubmit}>
-          <input type="text" ref={email} placeholder="Email" />
-          <input type="password" placeholder="Password" ref={password} />
-          <button>Login</button>
-        </form>
-        <p>Forgot password?</p>
-        <p>Not a member? Sign up now</p>
+      <>
+        <Appcontext.Provider value={{ setlogin }}>
+          <Routes>
+            <Route path="/" element={<Signin />} />
+          </Routes>
+        </Appcontext.Provider>
+      </>
+      <div>
+        {login === true && (
+          <>
+            <Navbar />
+            <Layout />
+          </>
+        )}
+        <Routes>
+          <Route path="Dashboard" element={<Dashboard />} />
+          <Route path="Event" element={<Event />} />
+          <Route path="Shortcut" element={<Shortcut />} />
+          <Route path="Overview" element={<Overview />} />
+          <Route path="About" element={<About />} />
+          <Route path="Services" element={<Services />} />
+          <Route path="Contact" element={<Contact />} />
+        </Routes>
       </div>
     </div>
   );
